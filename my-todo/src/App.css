@@ -1,0 +1,27 @@
+*{
+  font-family: Arial, Helvetica, sans-serif;
+}
+.todolist{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+h1{
+  text-align: center;
+  padding: 10px;
+  color: red;
+  
+}
+span{
+  cursor: pointer;
+}
+li input{
+  position: relative;
+}
+li h6{
+  position: absolute;
+  left: 50px;
+}
+.background-color{
+  background-color: rgb(164, 163, 163);
+}
