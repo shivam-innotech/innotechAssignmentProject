@@ -1,34 +1,112 @@
-import React from 'react'
+import React, { useState } from "react";
 
 const Todo = () => {
+  const [data, setData] = useState("none");
+  const [input, setInput] = useState("");
+  const [time, setTime] = useState();
+  const [task, setTask] = useState([]);
+
+  const startBtn = () => {
+    setData("block");
+  };
+  const cancelBtn = () => {
+    setData("none");
+  };
+  const addBtn = (e) => {
+    e.preventDefault();
+    if (!input) {
+      let addClass = document.getElementById("valid");
+      addClass.classList.add("is-invalid");
+    } else {
+      const newData = { id: Math.random(), name: input, isChecked: false };
+      setTask([...task, newData]);
+      setInput("");
+      setData("none");
+      let addClass = document.getElementById("valid");
+      addClass.classList.remove("is-invalid");
+    }
+  };
+
+  // current time
+  const onloadHandle = () => {
+    let currentTime = new Date();
+    let currentHour = currentTime.getHours();
+    let currentMinutes = currentTime.getMinutes();
+    let currentTimeStr = currentHour + ":" + currentMinutes;
+    setTime(currentTimeStr);
+  };
+  setInterval(() => {
+    onloadHandle();
+  }, 1000);
+
   return (
     <>
-    <div className="container">
+      <div className="container">
         <div className="row my-5">
-            <div className="col-lg-4 mx-auto">
-                <div className="header-container d-flex justify-content-between">
-                    <div className="time">9:00</div>
-                    <div className="media">
-                        <span><i className='fa fa-network'></i></span>
-                        <span><i className='fa fa-wify'></i></span>
-                        <span><i className='fa fa-battery'></i></span>
-                    </div>
-                </div>
-                <div className="add-todoContainer d-flex justify-content-between">
-                    <span>Today</span>
-                    <span><i className='fa fa-add'></i></span>
-                </div>
-                <div className="show-todoContainer">
-                <div className="form-check">
-                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
-                </div>
-                <div className="todo-content">Start making content</div>
-                </div>
+          <div className="col-lg-4 mx-auto main-container">
+            <div className="header-container d-flex justify-content-between my-2">
+              <div className="time ms-3" id="a" onLoad={onloadHandle}>
+                {time}
+              </div>
+              <div className="media">
+                <span>
+                  <i className="bi bi-reception-4"></i>
+                </span>
+                <span>
+                  <i className="bi bi-wifi w-4.63px"></i>
+                </span>
+                <span>
+                  <i className="bi bi-battery-full w-18px"></i>
+                </span>
+              </div>
             </div>
-        </div>
-    </div>
-     </>
-  )
-}
+            <div className="add-todoContainer my-3">
+              <h3>Today</h3>
+              <div>
+                <i
+                  className="bi bi-plus-circle text-primary"
+                  onClick={startBtn}
+                ></i>
+              </div>
+            </div>
+            <div id="typeText" style={{ display: `${data}` }}>
+              <h6>Add todo</h6>
+              <textarea
+                className="form-control"
+                id="valid"
+                rows="6"
+                value={input}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                }}
+              ></textarea>
+              <div className="buttons">
+                <button onClick={cancelBtn}>Cancel</button>
+                <button onClick={addBtn}>Done</button>
+              </div>
+            </div>
+            <div className="show-todoContainer my-3">
+              <h6>Add Your ToDos Here</h6>
 
-export default Todo
+              {task.map((item) => {
+                return (
+                  <div className="todo-content" key={item.id}>
+                    <form action="">
+                      {" "}
+                      <input type="radio" />
+                    </form>
+                    <span>
+                      <p>{item.name}</p>
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Todo;
