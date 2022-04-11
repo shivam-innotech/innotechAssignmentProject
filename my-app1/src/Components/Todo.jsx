@@ -4,7 +4,20 @@ const Todo = () => {
   const [data, setData] = useState("none");
   const [input, setInput] = useState("");
   const [time, setTime] = useState();
-  const [task, setTask] = useState([]);
+  const [task, setTask] = useState([
+    {
+      id: 1,
+      name: "Start making a presentation",
+      checked: true,
+      date: "2022-01-1",
+      time: "12:7",
+    },
+  ]);
+  const [inputTime, setInputTime] = useState();
+  const [inputDate, setInputDate] = useState();
+  const [color, setColor] = useState();
+
+  
 
   const startBtn = () => {
     setData("block");
@@ -18,12 +31,29 @@ const Todo = () => {
       let addClass = document.getElementById("valid");
       addClass.classList.add("is-invalid");
     } else {
-      const newData = { id: Math.random(), name: input, isChecked: false };
+      const newData = {
+        id: Math.random(),
+        name: input,
+        checked: true,
+        date: inputDate,
+        time: inputTime,
+      };
       setTask([...task, newData]);
       setInput("");
       setData("none");
       let addClass = document.getElementById("valid");
       addClass.classList.remove("is-invalid");
+
+    // remainder=====================================================
+      let today = new Date();
+      let currentDate = today.getDate()+"-"+(today.getMonth()+1)+"-"+today.getFullYear()
+      console.log(currentDate);
+
+      if (task.date=== currentDate) {
+        setColor("green");
+      } else {
+        setColor("black");
+      }
     }
   };
 
@@ -38,6 +68,9 @@ const Todo = () => {
   setInterval(() => {
     onloadHandle();
   }, 1000);
+
+
+
 
   return (
     <>
@@ -70,7 +103,7 @@ const Todo = () => {
               </div>
             </div>
             <div id="typeText" style={{ display: `${data}` }}>
-              <h6>Add todo</h6>
+              <h6>Add Todo</h6>
               <textarea
                 className="form-control"
                 id="valid"
@@ -80,24 +113,46 @@ const Todo = () => {
                   setInput(e.target.value);
                 }}
               ></textarea>
+              <p>Choose Date and Time</p>
+              <div className="date-time">
+                <input
+                  className="date"
+                  type="date"
+                  value={inputDate}
+                  onChange={(e) => {
+                    setInputDate(e.target.value);
+                  }}
+                />
+                <input
+                  className="time"
+                  type="time"
+                  value={inputTime}
+                  onChange={(e) => {
+                    setInputTime(e.target.value);
+                  }}
+                />
+              </div>
               <div className="buttons">
                 <button onClick={cancelBtn}>Cancel</button>
                 <button onClick={addBtn}>Done</button>
               </div>
             </div>
             <div className="show-todoContainer my-3">
-              <h6>Add Your ToDos Here</h6>
-
               {task.map((item) => {
                 return (
                   <div className="todo-content" key={item.id}>
                     <form action="">
                       {" "}
-                      <input type="radio" />
+                      <input type="radio" id="check" />
                     </form>
-                    <span>
+                    <div className="name">
                       <p>{item.name}</p>
-                    </span>
+                      <h6 className="date">{item.date}</h6>
+                      <div
+                        className="reminder"
+                        style={{ background: `${color}` }}
+                      ></div>
+                    </div>
                   </div>
                 );
               })}
