@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import moment from 'moment';
 
 const Todo = () => {
   const [data, setData] = useState("none");
@@ -9,15 +10,12 @@ const Todo = () => {
       id: 1,
       name: "Start making a presentation",
       checked: true,
-      date: "2022-01-1",
+      date: "2022-04-12",
       time: "12:7",
     },
   ]);
   const [inputTime, setInputTime] = useState();
   const [inputDate, setInputDate] = useState();
-  const [color, setColor] = useState();
-
-  
 
   const startBtn = () => {
     setData("block");
@@ -25,7 +23,7 @@ const Todo = () => {
   const cancelBtn = () => {
     setData("none");
   };
-  const addBtn = (e) => {
+  let addBtn = (e) => {
     e.preventDefault();
     if (!input) {
       let addClass = document.getElementById("valid");
@@ -43,21 +41,12 @@ const Todo = () => {
       setData("none");
       let addClass = document.getElementById("valid");
       addClass.classList.remove("is-invalid");
-
-    // remainder=====================================================
-      let today = new Date();
-      let currentDate = today.getDate()+"-"+(today.getMonth()+1)+"-"+today.getFullYear()
-      console.log(currentDate);
-
-      if (task.date=== currentDate) {
-        setColor("green");
-      } else {
-        setColor("black");
-      }
+    
     }
-  };
-
-  // current time
+   
+  }
+ 
+  // current time on screen
   const onloadHandle = () => {
     let currentTime = new Date();
     let currentHour = currentTime.getHours();
@@ -68,10 +57,7 @@ const Todo = () => {
   setInterval(() => {
     onloadHandle();
   }, 1000);
-
-
-
-
+ 
   return (
     <>
       <div className="container">
@@ -142,20 +128,20 @@ const Todo = () => {
                 return (
                   <div className="todo-content" key={item.id}>
                     <form action="">
-                      {" "}
+                     
                       <input type="radio" id="check" />
                     </form>
                     <div className="name">
                       <p>{item.name}</p>
                       <h6 className="date">{item.date}</h6>
                       <div
-                        className="reminder"
-                        style={{ background: `${color}` }}
+                        className={moment().format("YYYY-MM-DD")===item.date? "reminder" : "reminder2"}
                       ></div>
                     </div>
                   </div>
                 );
               })}
+                
             </div>
           </div>
         </div>
