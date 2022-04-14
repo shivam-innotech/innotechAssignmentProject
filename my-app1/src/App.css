@@ -58,19 +58,9 @@ body{
     position: absolute;
     right: 10px;
     top: 40%;
-    background: green;
     
 }
-.todo-content .reminder2{
-    height: 10px;
-    width: 10px;
-    border-radius: 10px;
-    position: absolute;
-    right: 10px;
-    top: 40%;
-    background:red;
-    
-}
+
 .todo-content form input{
     height:22px;
      width:22px;
@@ -114,7 +104,9 @@ body{
 }
 .date{
     font-size: 10px;
-    color: rgb(162, 157, 157);
+    color: rgb(119, 116, 116);
+    display: inline-block;
+    margin-right: 10px;
 }
 #typeText .date-time{
     width: 290px;

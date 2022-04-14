@@ -5,17 +5,22 @@ const Todo = () => {
   const [data, setData] = useState("none");
   const [input, setInput] = useState("");
   const [time, setTime] = useState();
+  const [inputTime, setInputTime] = useState();
+  const [inputDate, setInputDate] = useState();
+  const [checked,setChecked]=useState(false)
+  const[color,setColor]=useState()
   const [task, setTask] = useState([
     {
       id: 1,
-      name: "Start making a presentation",
-      checked: true,
-      date: "2022-04-12",
-      time: "12:7",
-    },
+      name: "start making a presentation",
+      isChecked:true,
+      date:" 14-04-2022",
+      time: "2:19",
+    showColor: "green"
+    }
+
   ]);
-  const [inputTime, setInputTime] = useState();
-  const [inputDate, setInputDate] = useState();
+  
 
   const startBtn = () => {
     setData("block");
@@ -32,20 +37,35 @@ const Todo = () => {
       const newData = {
         id: Math.random(),
         name: input,
-        checked: true,
+        isChecked:checked,
         date: inputDate,
         time: inputTime,
+      showColor: color
+        
       };
       setTask([...task, newData]);
       setInput("");
       setData("none");
       let addClass = document.getElementById("valid");
       addClass.classList.remove("is-invalid");
-    
+      setInputTime("")
+      setInputDate("")
     }
    
   }
- 
+// Reminder-----
+
+  let date=moment() 
+  if(moment(date.format('YYYY-MM-DD')).isSame(inputDate)){
+    setColor("yellow")
+   
+  }else if(moment(date.format('YYYY-MM-DD')).isBefore(inputDate)){
+    setColor("green")
+   
+  }else if(moment(date.format('YYYY-MM-DD')).isAfter(inputDate)){
+    setColor("red")
+  
+  }   
   // current time on screen
   const onloadHandle = () => {
     let currentTime = new Date();
@@ -58,6 +78,7 @@ const Todo = () => {
     onloadHandle();
   }, 1000);
  
+  
   return (
     <>
       <div className="container">
@@ -124,18 +145,22 @@ const Todo = () => {
               </div>
             </div>
             <div className="show-todoContainer my-3">
-              {task.map((item) => {
+              {              
+              task.map((item) => {
                 return (
                   <div className="todo-content" key={item.id}>
                     <form action="">
                      
-                      <input type="radio" id="check" />
+                      <input type="checkbox" value={item.isChecked}
+                      onChange={(e)=>{setChecked(e.target.value)}}/>
                     </form>
                     <div className="name">
                       <p>{item.name}</p>
                       <h6 className="date">{item.date}</h6>
+                      <h6 className="date">{item.time}</h6>
+
                       <div
-                        className={moment().format("YYYY-MM-DD")===item.date? "reminder" : "reminder2"}
+                        className="reminder"  style={{backgroundColor:`${item.showColor}`}} 
                       ></div>
                     </div>
                   </div>
